@@ -2,9 +2,24 @@ import Head from "next/head";
 import Image from "next/image";
 import SEO from "../components/SEO";
 import Article from "../components/Article";
+import Project from "../components/Project";
+
+const projects = [
+  {
+    name: "helloPython",
+    description:
+      "All the Python Resources in one space for Developers and AI Researchers.",
+    url: "hellopython.vercel.app/",
+  },
+  {
+    name: "pyhunt.com",
+    description: "Python Data, Backend and Machine Learning Jobs Website.",
+    url: "pyhunt.com",
+  },
+];
 
 const Home = ({ blogs }) => {
-  console.log("Hashnode Data: ", blogs.data.user.publication.posts);
+  // console.log("Hashnode Data: ", blogs.data.user.publication.posts);
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-2">
       <SEO
@@ -19,10 +34,10 @@ const Home = ({ blogs }) => {
             src="/profile.jpg"
             loading="lazy"
             alt="avatar"
-            className="object-cover mx-auto my-auto rounded-full border-turbo-light-blue-500 border-4 h-32 w-32"
+            className="object-cover mx-auto my-auto rounded-full border-turbo-light-blue-500 border-4 h-24 w-24 md:h-32 md:w-32"
           />
           <div className="my-auto mx-auto space-y-2 md:space-y-4">
-            <h1 className="text-2xl md:text-4xl font-bold">CodeWithKenn</h1>
+            <h1 className="text-xl md:text-4xl font-bold">CodeWithKenn</h1>
             <p className="text-xs md:text-lg mt-4 font-semibold">
               {" "}
               Software Developer • Indie Hacker • Technical Writer • Content
@@ -76,8 +91,8 @@ const Home = ({ blogs }) => {
           </a>
         </div>
 
-        <div className="my-8 md:my-12 py-8">
-          <h1 className="text-md font-semibold">Latest Articles</h1>
+        <div className="my-3 md:my-6 py-8">
+          <h1 className="text-md font-bold">Latest Articles</h1>
           <div className="flex flex-col">
             {blogs.data.user.publication.posts.map((article, index) => {
               return <Article data={article} key={index} />;
@@ -89,6 +104,21 @@ const Home = ({ blogs }) => {
             className="hover:underline font-medium text-left text-sm md:text-md my-4 md:my-8"
           >
             Read more
+          </a>
+        </div>
+        <div className="my-2 md:my-4 py-8">
+          <h1 className="text-md font-bold">Selected Projects</h1>
+          <div className="flex flex-col">
+            {projects.map((project, index) => {
+              return <Project data={project} key={index} />;
+            })}
+          </div>
+          <a
+            href="https://github.com/KennStack01"
+            target="__blank"
+            className="hover:underline font-medium text-left text-sm md:text-md my-4 md:my-8"
+          >
+            More Projects
           </a>
         </div>
       </main>
