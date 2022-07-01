@@ -1,26 +1,29 @@
 import Head from "next/head";
 import Image from "next/image";
 import SEO from "../components/SEO";
+import Article from "../components/Article";
 
-const Home = () => {
+const Home = ({ blogs }) => {
+  console.log("Hashnode Data: ", blogs.data.user.publication.posts);
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-2">
       <SEO
         title="Welcome"
         description="Software Developer • Indie Hacker • Technical Writer • Content Creator"
       />
 
-      <main className="flex w-full flex-1 flex-col items-center space-y-2 md:space-y-0 justify-center px-2 md:px-10 text-center">
-        <div className="flex flex-col space-x-2 md:space-x-4 space-y-4 md:space-y-6 md:flex-row">
+      {/* <main className="flex w-full flex-1 flex-col items-center space-y-2 justify-center px-2 md:px-10 text-center"> */}
+      <main className="space-y-2 px-2 md:px-10 flex flex-col">
+        <div className="flex flex-col text-center space-x-2 md:space-x-4 space-y-4 md:space-y-6">
           <img
             src="/profile.jpg"
             loading="lazy"
             alt="avatar"
             className="object-cover mx-auto my-auto rounded-full border-turbo-light-blue-500 border-4 h-32 w-32"
           />
-          <div className="my-auto mx-auto md:text-left space-y-2 md:space-y-4">
+          <div className="my-auto mx-auto space-y-2 md:space-y-4">
             <h1 className="text-2xl md:text-4xl font-bold">CodeWithKenn</h1>
-            <p className="text-md font-medium">
+            <p className="text-xs md:text-lg mt-4 font-semibold">
               {" "}
               Software Developer • Indie Hacker • Technical Writer • Content
               Creator{" "}
@@ -28,13 +31,20 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="flex flex-row space-x-4 md:space-x-8 text-sm md:text-md">
+        <div className="md:flex py-4 md:py-8 flex-row font-semibold text-center mx-auto grid grid-cols-3 my-8 md:my-10 space-x-4 md:space-x-8 text-xs md:text-sm">
           <a
-            href=""
+            href="https://blog.codewithkenn.com"
             target="_blank"
             className="hover:bg-turbo-light-blue-600 p-1 rounded-sm hover:text-white"
           >
-            Blog
+            Hashnode
+          </a>
+          <a
+            href="https://dev.to/codewithkenn"
+            target="_blank"
+            className="hover:bg-turbo-back-blue-600 p-1 rounded-sm hover:text-white"
+          >
+            DEV
           </a>
           <a
             href="https://github.com/KennKibadi"
@@ -42,6 +52,13 @@ const Home = () => {
             className="hover:bg-turbo-light-blue-600 p-1 rounded-sm hover:text-white"
           >
             Twitter
+          </a>
+          <a
+            href="https://www.linkedin.com/in/kennkibadi/"
+            target="_blank"
+            className="hover:bg-turbo-light-blue-600 p-1 rounded-sm hover:text-white"
+          >
+            LinkedIn
           </a>
           <a
             href="https://github.com/KennStack01"
@@ -56,6 +73,22 @@ const Home = () => {
             className="hover:bg-red-600 p-1 rounded-sm hover:text-white"
           >
             Youtube
+          </a>
+        </div>
+
+        <div className="my-8 md:my-12 py-8">
+          <h1 className="text-md font-semibold">Latest Articles</h1>
+          <div className="flex flex-col">
+            {blogs.data.user.publication.posts.map((article, index) => {
+              return <Article data={article} key={index} />;
+            })}
+          </div>
+          <a
+            href="https://blog.codewithkenn.com"
+            target="__blank"
+            className="hover:underline font-medium text-left text-sm md:text-md my-4 md:my-8"
+          >
+            Read more
           </a>
         </div>
       </main>
@@ -75,6 +108,37 @@ const Home = () => {
       </footer> */}
     </div>
   );
+};
+
+export const getServerSideProps = async () => {
+  const articles = await fetch("https://api.hashnode.com/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: `
+    query {
+      user(username: "codewithkenn") {
+        publication {
+          posts(page: 0) {
+            title
+            coverImage
+            brief
+            dateAdded
+            slug
+          }
+        }
+      }
+    }`,
+    }),
+  });
+  // .then((res) => res.json())
+  // .then((res) => res.data.user.publication.posts);
+
+  return {
+    props: {
+      blogs: (await articles.json()) || null,
+    },
+  };
 };
 
 export default Home;
