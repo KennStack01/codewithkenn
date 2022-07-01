@@ -123,19 +123,19 @@ const Home = ({ blogs }) => {
         </div>
       </main>
 
-      {/* <footer className="flex h-6 text-xs w-full items-center justify-center border-t">
+      <footer className="flex h-6 text-xs flex-row w-full items-center justify-center border-t">
         <a
           className="flex items-center justify-center gap-2"
           href="https://twitter.com/KennKibadi"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Built by{" "}
           <span className="hover:border-b-2 hover:border-b-cyan-500">
             Kenn Kibadi
           </span>
         </a>
-      </footer> */}
+        <span className="mx-2"> {` © ` + new Date().getFullYear()}</span>
+      </footer>
     </div>
   );
 };
