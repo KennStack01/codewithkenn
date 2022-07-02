@@ -9,12 +9,12 @@ const projects = [
     name: "helloPython",
     description:
       "All the Python Resources in one space for Developers and AI Researchers.",
-    url: "hellopython.vercel.app/",
+    url: "https://hellopython.vercel.app/",
   },
   {
     name: "pyhunt.com",
     description: "Python Data, Backend and Machine Learning Jobs Website.",
-    url: "pyhunt.com",
+    url: "https://pyhunt.com",
   },
 ];
 
